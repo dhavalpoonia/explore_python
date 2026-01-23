@@ -1,1 +1,6 @@
-"# learning_class_implementation_in_python" 
+##Implementing ML Algos from scratch in python
+
+
+###Linear Regression
+
+
