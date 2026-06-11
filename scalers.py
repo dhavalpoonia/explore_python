@@ -58,6 +58,8 @@ class MinMaxScaler():
         self.min_ = np.nanmin(array_X, axis = 0)  
         self.max_ = np.nanmax(array_X, axis = 0) 
 
+        # if values are constant then to keep denominator non zero we replace it with 1 
+        # this way all scaled values will be zero > same as raw values with no information
         self.max_ = np.where(self.min_ == self.max_, self.max_ + 1.0, self.max_)
 
         return self
@@ -76,40 +78,45 @@ class MinMaxScaler():
         return X
 
 
+class RobustScaler():
+
+    # normalization is calculated using >> (Xi - Xmin)/(Xmax - Xmin)
+
+    # mean and std
+    def __init__(self):
+        
+        self.median_ = 0 
+        self.iqr_ = 0 
 
 
+    def fit(self, X):
 
+        array_X = np.array(X)
+        self.median_ = np.nanmedian(array_X, axis = 0)  
 
+        q_25 = np.quantile(array_X, 25, axis = 0)
+        q_75 = np.quantile(array_X, 75, axis = 0)
 
-X = pd.read_csv('./datasets/salary_data.csv')
-print(X)
+        if q_25 == q_75:
+            self.iqr_ = 1
+        else:
+            self.iqr_ = q_75 - q_25 
 
+        return self
 
-# x_array = np.array(X)
-# print(x_array)
-# mean = np.mean(x_array, axis = 0)
-# std = np.std(x_array, axis = 0)
+    def transform(self, X):
 
-# print(np.mean(x_array, axis = 0))
-# print(np.std(x_array, axis = 0))
+        array_X = np.array(X)
+        scaled_X = (array_X - self.median_)/(self.iqr_)
 
-# print((x_array- mean)/std)
+        return scaled_X
+    
+    def inverse_transform(self, scaled_X):
 
+        array_X = np.array(scaled_X) 
+        X = array_X*(self.iqr_) + self.median_
 
-ss = MinMaxScaler() 
-
-print(ss.fit(X))
-
-print(ss.min_) 
-print(ss.max_) 
-
-transformed = ss.transform([[1,1], [1,1]]) 
-
-
-print(transformed)
-print(ss.transform([[1,2], [0,0]]))
-
-print(ss.inverse_transform([[1.85889428 , 1.70177321]]))
+        return X
 
 
 

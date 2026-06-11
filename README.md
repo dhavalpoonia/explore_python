@@ -1,4 +1,4 @@
-## Implementing Concepts from scratch in python
+## Implementing ML Concepts from scratch in python
 
 
 ### Linear Regression
@@ -7,4 +7,6 @@
 
 ### MinMax Scaler
 
+### Robust Scaler 
 
+### MaxAbs Scaler
