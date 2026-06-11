@@ -1,6 +1,10 @@
-##Implementing ML Algos from scratch in python
+## Implementing Concepts from scratch in python
 
 
-###Linear Regression
+### Linear Regression
+
+### Standard Scaler
+
+### MinMax Scaler
 
 
